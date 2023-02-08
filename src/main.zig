@@ -26,7 +26,7 @@ const io = std.io;
 
 const BUFSIZ = 8196;
 
-const ServeFileError = error {
+const ServeFileError = error{
     RecvHeaderEOF,
     RecvHeaderExceededBuffer,
     HeaderDidNotMatch,
@@ -102,12 +102,12 @@ fn serveFile(stream: *const net.Stream, dir: fs.Dir) !void {
         "Content-Length: {}\r\n" ++
         "\r\n";
     const mimes = .{
-        .{".html", "text/html"},
-        .{".css", "text/css"},
-        .{".map", "application/json"},
-        .{".svg", "image/svg+xml"},
-        .{".jpg", "image/jpg"},
-        .{".png", "image/png"}
+        .{ ".html", "text/html" },
+        .{ ".css", "text/css" },
+        .{ ".map", "application/json" },
+        .{ ".svg", "image/svg+xml" },
+        .{ ".jpg", "image/jpg" },
+        .{ ".png", "image/png" },
     };
     var mime: []const u8 = "text/plain";
 
@@ -116,8 +116,8 @@ fn serveFile(stream: *const net.Stream, dir: fs.Dir) !void {
             mime = kv[1];
     }
 
-    std.log.info(" >>>\n" ++ http_head, .{mime, file_len});
-    try stream.writer().print(http_head, .{mime, file_len});
+    std.log.info(" >>>\n" ++ http_head, .{ mime, file_len });
+    try stream.writer().print(http_head, .{ mime, file_len });
 
     const zero_iovec = &[0]std.os.iovec_const{};
     var send_total: usize = 0;
@@ -130,7 +130,7 @@ fn serveFile(stream: *const net.Stream, dir: fs.Dir) !void {
             file_len,
             zero_iovec,
             zero_iovec,
-            0
+            0,
         );
 
         if (send_len == 0)
@@ -160,7 +160,7 @@ pub fn main() anyerror!void {
 
         serveFile(&conn.stream, dir) catch |err| {
             if (@errorReturnTrace()) |bt| {
-                std.log.err("Failed to serve client: {}: {}", .{err, bt});
+                std.log.err("Failed to serve client: {}: {}", .{ err, bt });
             } else {
                 std.log.err("Failed to serve client: {}", .{err});
             }
