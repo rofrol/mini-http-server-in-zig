@@ -108,6 +108,7 @@ fn serveFile(stream: *const net.Stream, dir: fs.Dir) !void {
         .{ ".svg", "image/svg+xml" },
         .{ ".jpg", "image/jpg" },
         .{ ".png", "image/png" },
+        .{ ".wasm", "application/wasm" },
     };
     var mime: []const u8 = "text/plain";
 
